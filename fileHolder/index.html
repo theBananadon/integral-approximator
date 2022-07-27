@@ -121,6 +121,7 @@
                 
                 try{
                     drawFunction(ctx, width, height);
+                    fillFunction(ctx, width, height, Number(lowerDomain.value), Number(upperDomain.value));
                 } catch (e){
 
                 }
@@ -171,8 +172,34 @@
                     }
                 }
 
-                console.log(func(-width / (2 * unitSize)));
-                console.log(func(width / (2 * unitSize)));
+            }
+
+            function fillFunction(ctx, width, height, a, b){
+
+                let unitSize = 20;
+
+                ctx.lineWidth = 1;
+                
+
+                for(let i = a * unitSize; i <  b * unitSize; i++){
+                    
+                    let graphHeight = height / 2 - unitSize * func(i / unitSize);
+                    
+
+                    if(graphHeight > height / 2){
+                        ctx.strokeStyle = 'blue';
+                    } else {
+                        ctx.strokeStyle = 'red';
+                    }
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(i + width / 2, graphHeight);
+                    ctx.lineTo(i + width / 2, height / 2);    
+                    ctx.stroke();
+
+                    
+                }
+
             }
 
 
