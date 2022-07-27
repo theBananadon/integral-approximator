@@ -12,7 +12,7 @@
         <div class = "lowerDomain">Lower Bound: </div>
         <div class = "upperDomain">Upper Bound: </div>
         <div class = "units">Unit Size: </div>
-        <div class = "output">Value: </div>
+        <div class = "output"><br>Value: </div>
         <div class = "canvas">
             <br>Graph of f(x):<br>
             <canvas id = "graph" height = "800" width = "800"></canvas>
@@ -28,17 +28,21 @@
 
             const input = document.createElement("input");
             input.setAttribute("type", "text");
+            input.value = "x";
 
             const output = document.createElement("span");
 
             const lowerDomain = document.createElement("input");
             lowerDomain.setAttribute("type", "text");
+            lowerDomain.value = 0;
 
             const upperDomain = document.createElement("input");
             upperDomain.setAttribute("type", "text");
+            upperDomain.value = 1;
 
             const unitInput = document.createElement("input");
             unitInput.setAttribute("type","text");
+            unitInput.value = 20;
 
             textField.appendChild(input);
             divOut.appendChild(output);
@@ -50,6 +54,7 @@
             let unitSize = 20;
 
             //input for funtion and domain
+            draw();
 
             input.addEventListener("keypress",function(e){
                 let a = Number(lowerDomain.value);
