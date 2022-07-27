@@ -1,31 +1,27 @@
+import { evaluate } from "mathjs";
 
-
-const textField = document.querySelector(".textField");
-
-let funct;
-const text = document.createElement("input");
-text.setAttribute("type","text");
-
-textField.appendChild(text);
-
-text.addEventListener("keypress", function(event) { 
-    if(event.key === "Enter"){
-        funct = text.value;
-        alert(func(10));
-    }
-} )
-
-
-
-
+let funct = 'x^2-2*x+1';
 
 //Function of x, solved for a
 
 function func(a){
-    funct = funct.replaceAll('x' , a);
-    funct = funct.replaceAll("^", "**");
+    let val = funct.replaceAll('x', a);
+    let c = evaluate(val);
     return c;
 }
+
+function domainSum(a, b, interval){
+    let sum = 0;
+    for(let i = 0; i < (b - a) / interval; i++){
+        let value = a + (i * interval);
+        sum += SimpsonsRule(value, interval);
+    }
+    return sum;
+}
+
+console.log(domainSum(1,3,0.1));
+
+
 
 
 
@@ -34,6 +30,7 @@ function func(a){
 
 function SimpsonsRule(a, interval){
     let c = (2 * MidpointSum(a, interval) + TrapezoidSum(a, interval)) / 3;
+    return c;
 }
 
 function TrapezoidSum(a, interval){
