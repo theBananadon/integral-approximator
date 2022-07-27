@@ -9,46 +9,74 @@
     <body>
         <h1 class = "header">Integral Approximator</h1>
         <div class = "textField">Input value here: </div>
-
+        <div class = "output">Value: </div>
         <script type = "text/javascript">
 
-        let funct = 'x^2-2*x+1';
+            const textField = document.querySelector(".textField");
+            const divOut = document.querySelector(".output");
 
-        //Function of x, solved for a
+            const input = document.createElement("input");
+            input.setAttribute("type", "text");
+
+            const output = document.createElement("span");
+
+
+            textField.appendChild(input);
+            divOut.appendChild(output);
+
+
+            let funct = 'x';
+
+            input.addEventListener("keypress",function(e){
+                if(e.key === "Enter"){
+                    funct = input.value;
+                    output.textContent = domainSum(1,3,0.01);
+                }
+            } )
+
+            
+            // Function of x, solved for a
         
-        function func(a){
-            let val = funct.replaceAll('x', a);
-            let c = math.evaluate(val);
-            return c;
-        }
+            function func(a){
+                let val = funct.replaceAll('x', a);
+                let c = 0;
+                try{
+                    c = math.evaluate(val);
+                } catch(e){
+                    
+                }
+                return c;
+            }
 
-        function domainSum(a, b, interval){
-            let sum = 0;
-            for(let i = 0; i < (b - a) / interval; i++){
-            let value = a + (i * interval);
-        sum += SimpsonsRule(value, interval);
-    }
-    return sum;
-}
+            function domainSum(a, b, interval){
+                let sum = 0;
+                for(let i = 0; i < (b - a) / interval; i++){
+                    let value = a + (i * interval);
+                    sum += SimpsonsRule(value, interval);
+                }
+                return sum;
+            }  
 
-console.log(domainSum(1,3,0.1));
 
-//Definition Functions: use for calculations, no change regardless of input function
 
-function SimpsonsRule(a, interval){
-    let c = (2 * MidpointSum(a, interval) + TrapezoidSum(a, interval)) / 3;
-    return c;
-}
+            console.log(domainSum(1,3,0.1));
 
-function TrapezoidSum(a, interval){
-    let c = (func(a) + func(a + interval)) * interval / 2;
-    return c;
-}
+            //Definition Functions: use for calculations, no change regardless of input function
 
-function MidpointSum(a, interval){
-    let c = func(a + (interval / 2)) * interval;
-    return c;
-}
+            function SimpsonsRule(a, interval){
+                let c = (2 * MidpointSum(a, interval) + TrapezoidSum(a, interval)) / 3;
+                return c;
+            }
+
+            function TrapezoidSum(a, interval){
+                let c = (func(a) + func(a + interval)) * interval / 2;
+                return c;
+            }
+
+            function MidpointSum(a, interval){
+                let c = func(a + (interval / 2)) * interval;
+                return c;
+            }
 
 
         </script>
