@@ -11,6 +11,7 @@
         <div class = "textField">Input value here: </div>
         <div class = "lowerDomain">Lower Bound: </div>
         <div class = "upperDomain">Upper Bound: </div>
+        <div class = "units">Unit Size: </div>
         <div class = "output">Value: </div>
         <div class = "canvas">
             <br>Graph of f(x):<br>
@@ -23,6 +24,7 @@
             const divOut = document.querySelector(".output");
             const lower = document.querySelector(".lowerDomain");
             const upper = document.querySelector(".upperDomain");
+            const units = document.querySelector(".units");
 
             const input = document.createElement("input");
             input.setAttribute("type", "text");
@@ -35,12 +37,17 @@
             const upperDomain = document.createElement("input");
             upperDomain.setAttribute("type", "text");
 
+            const unitInput = document.createElement("input");
+            unitInput.setAttribute("type","text");
+
             textField.appendChild(input);
             divOut.appendChild(output);
             lower.appendChild(lowerDomain);
             upper.appendChild(upperDomain);
+            units.appendChild(unitInput);
 
             let funct = 'x';
+            let unitSize = 20;
 
             //input for funtion and domain
 
@@ -61,6 +68,15 @@
                     output.textContent = "Improper Domain";
                 }
             } )
+
+            unitInput.addEventListener("keypress", function(e){
+                if(e.key === "Enter"){
+                    if(!isNaN(unitInput.value)){
+                        unitSize = unitInput.value;
+                        draw();
+                    }
+                }
+            })
 
             
             // Function of x, solved for a
@@ -131,23 +147,23 @@
 
             function drawGraphLines(ctx, width, height){
              
-                let unitSize = 20;
+                
                 ctx.strokeStyle = 'black';
                 ctx.lineWidth = 1;
             
-                for(let i = 0; i < width / unitSize; i++){
-                    ctx.beginPath();
-                    ctx.moveTo(i * unitSize, 0);
-                    ctx.lineTo(i * unitSize, height - unitSize);
-                    ctx.stroke();
-                }
+                
+                ctx.beginPath();
+                ctx.moveTo(width / 2, 0);
+                ctx.lineTo(width / 2, height);
+                ctx.stroke();
+                
             
-                for(let  i = 0; i < height / unitSize; i++){
-                    ctx.beginPath();
-                    ctx.moveTo(0, i * unitSize);
-                    ctx.lineTo(width - unitSize, i * unitSize);
-                    ctx.stroke();
-                }
+                
+                ctx.beginPath();
+                ctx.moveTo(0, height / 2);
+                ctx.lineTo(width - unitSize, height / 2);
+                ctx.stroke();
+                
 
                 
 
@@ -156,7 +172,7 @@
             function drawFunction(ctx, width, height){
                 
 
-                let unitSize = 20;
+                
                 ctx.strokeStyle = 'blue';
                 ctx.lineWidth = 5;
 
@@ -176,26 +192,27 @@
 
             function fillFunction(ctx, width, height, a, b){
 
-                let unitSize = 20;
+                
 
                 ctx.lineWidth = 1;
                 
 
                 for(let i = a * unitSize; i <  b * unitSize; i++){
+                    if(a * unitSize + width / 2 < width - 20){
                     
-                    let graphHeight = height / 2 - unitSize * func(i / unitSize);
-                    
+                        let graphHeight = height / 2 - unitSize * func(i / unitSize);
 
-                    if(graphHeight > height / 2){
-                        ctx.strokeStyle = 'blue';
-                    } else {
-                        ctx.strokeStyle = 'red';
+                        if(graphHeight > height / 2){
+                            ctx.strokeStyle = 'blue';
+                        } else {
+                            ctx.strokeStyle = 'red';
+                        }
+
+                        ctx.beginPath();
+                        ctx.moveTo(i + width / 2, graphHeight);
+                        ctx.lineTo(i + width / 2, height / 2);    
+                        ctx.stroke();
                     }
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(i + width / 2, graphHeight);
-                    ctx.lineTo(i + width / 2, height / 2);    
-                    ctx.stroke();
 
                     
                 }
