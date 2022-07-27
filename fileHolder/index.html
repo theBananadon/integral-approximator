@@ -6,31 +6,53 @@
         <script src = "node_modules/mathjs/lib/browser/math.js" type = "text/javascript"></script>
         <link rel="stylesheet" href = "styles.css">
     </head>
-    <body>
+    <body class = "body">
         <h1 class = "header">Integral Approximator</h1>
         <div class = "textField">Input value here: </div>
+        <div class = "lowerDomain">Lower Bound: </div>
+        <div class = "upperDomain">Upper Bound: </div>
         <div class = "output">Value: </div>
+        
         <script type = "text/javascript">
 
             const textField = document.querySelector(".textField");
             const divOut = document.querySelector(".output");
+            const lower = document.querySelector(".lowerDomain");
+            const upper = document.querySelector(".upperDomain");
 
             const input = document.createElement("input");
             input.setAttribute("type", "text");
 
             const output = document.createElement("span");
 
+            const lowerDomain = document.createElement("input");
+            lowerDomain.setAttribute("type", "text");
+
+            const upperDomain = document.createElement("input");
+            upperDomain.setAttribute("type", "text");
 
             textField.appendChild(input);
             divOut.appendChild(output);
-
+            lower.appendChild(lowerDomain);
+            upper.appendChild(upperDomain);
 
             let funct = 'x';
 
+            //input for funtion and domain
+
             input.addEventListener("keypress",function(e){
-                if(e.key === "Enter"){
+                let a = Number(lowerDomain.value);
+                let b = Number(upperDomain.value);
+
+                if(e.key === "Enter" && !isNaN(a) && !isNaN(b)){
                     funct = input.value;
-                    output.textContent = domainSum(1,3,0.01);
+                    try{
+                        output.textContent = domainSum(a,b,0.01);
+                    } catch(e){
+                        output.textContent = "!";
+                    }
+                } else {
+                    console.log("your mother");
                 }
             } )
 
@@ -39,12 +61,7 @@
         
             function func(a){
                 let val = funct.replaceAll('x', a);
-                let c = 0;
-                try{
-                    c = math.evaluate(val);
-                } catch(e){
-                    
-                }
+                let c = math.evaluate(val);
                 return c;
             }
 
