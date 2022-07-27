@@ -52,9 +52,11 @@
                     funct = input.value;
                     try{
                         output.textContent = domainSum(a,b,0.01);
+                        
                     } catch(e){
                         output.textContent = "!";
                     }
+                    draw();
                 } else {
                     output.textContent = "Improper Domain";
                 }
@@ -105,9 +107,22 @@
                     return;
                 }
 
-                const ctx = canvas.getContext('2d');
+                
 
-                drawGraphLines(ctx, Number(canvas.getAttribute("height")), Number(canvas.getAttribute("width")));
+                let width = canvas.width;
+                let height = canvas.height;
+
+                const ctx = canvas.getContext('2d');
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                drawGraphLines(ctx, width, height);
+                
+                try{
+                    drawFunction(ctx, width, height);
+                } catch (e){
+
+                }
             }
 
             //Canvas Drawings
@@ -132,9 +147,30 @@
                     ctx.stroke();
                 }
 
+                
+
             }
 
-            draw();
+            function drawFunction(ctx, width, height){
+                
+
+                let unitSize = 20;
+                ctx.strokeStyle = 'blue';
+                ctx.lineWidth = 5;
+
+                for(let i = 0; i < width - unitSize; i++){
+                    ctx.beginPath();
+                    ctx.moveTo(i, height / 2 - unitSize * func((i - width / 2) / unitSize));
+                    ctx.lineTo(i + 1, height / 2 - unitSize * func(((i + 1) - width / 2) / unitSize));
+                    ctx.stroke();
+                    console.log(height / 2 - unitSize * func(((i + 1) - width / 2) / unitSize));
+                    
+                }
+
+                console.log(func(-width / (2 * unitSize)));
+                console.log(func(width / (2 * unitSize)));
+            }
+
 
         </script>
         
