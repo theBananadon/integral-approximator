@@ -12,7 +12,11 @@
         <div class = "lowerDomain">Lower Bound: </div>
         <div class = "upperDomain">Upper Bound: </div>
         <div class = "output">Value: </div>
-        
+        <div class = "canvas">
+            <br>Graph of f(x):<br>
+            <canvas id = "graph" height = "800" width = "800"></canvas>
+        </div>
+
         <script type = "text/javascript">
 
             const textField = document.querySelector(".textField");
@@ -76,8 +80,6 @@
 
 
 
-            console.log(domainSum(1,3,0.1));
-
             //Definition Functions: use for calculations, no change regardless of input function
 
             function SimpsonsRule(a, interval){
@@ -95,13 +97,48 @@
                 return c;
             }
 
+            function draw(){
+                
+                const canvas = document.querySelector('#graph');
+
+                if(!canvas.getContext){
+                    return;
+                }
+
+                const ctx = canvas.getContext('2d');
+
+                drawGraphLines(ctx, Number(canvas.getAttribute("height")), Number(canvas.getAttribute("width")));
+            }
+
+            //Canvas Drawings
+
+            function drawGraphLines(ctx, width, height){
+             
+                let unitSize = 20;
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1;
+            
+                for(let i = 0; i < width / unitSize; i++){
+                    ctx.beginPath();
+                    ctx.moveTo(i * unitSize, 0);
+                    ctx.lineTo(i * unitSize, height - unitSize);
+                    ctx.stroke();
+                }
+            
+                for(let  i = 0; i < height / unitSize; i++){
+                    ctx.beginPath();
+                    ctx.moveTo(0, i * unitSize);
+                    ctx.lineTo(width - unitSize, i * unitSize);
+                    ctx.stroke();
+                }
+
+            }
+
+            draw();
 
         </script>
-        <div class = "canvas">
-            <br>Graph of f(x):<br>
-            <canvas id = "graph" height = "800" width = "800"></canvas>
-        </div>
-        <script src = "canvas.js"></script>
+        
+        
 
     </body>
 </html>
