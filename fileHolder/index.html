@@ -7,15 +7,30 @@
         <link rel="stylesheet" href = "styles.css">
     </head>
     <body class = "body">
-        <h1 class = "header">Integral Approximator</h1>
-        <div class = "textField">Input value here: </div>
-        <div class = "lowerDomain">Lower Bound: </div>
-        <div class = "upperDomain">Upper Bound: </div>
-        <div class = "units">Unit Size: </div>
-        <div class = "output"><br>Value: </div>
-        <div class = "canvas">
-            <br>Graph of f(x):<br>
-            <canvas id = "graph" height = "800" width = "800"></canvas>
+        <div class = "outsideBox">
+            <div class = "header">
+                <h1>Integral Approximator</h1>
+            </div>
+            <div class = "contents">
+                <div class = "textField">Input function here:</div>
+            </div>
+            <div class = "ButtonHolder">
+                <button class = "button">Press</button>
+            </div>
+            <div class = "contents">
+                <div class = "output"><br>Value: </div>
+                <div class = "canvas">
+                    <br>Graph of f(x):<br>
+                    <canvas id = "graph" height = "800" width = "800"></canvas>
+                </div>
+                <div class = "Settings">
+                    <div class = "lowerDomain">Lower Bound: </div>
+                    <div class = "upperDomain">Upper Bound: </div>
+                    <div class = "units">Unit Size: </div>
+                </div>
+            </div>
+                
+            
         </div>
 
         <script type = "text/javascript">
@@ -25,6 +40,7 @@
             const lower = document.querySelector(".lowerDomain");
             const upper = document.querySelector(".upperDomain");
             const units = document.querySelector(".units");
+            const button = document.querySelector(".button");
 
             const input = document.createElement("input");
             input.setAttribute("type", "text");
@@ -56,11 +72,11 @@
             //input for funtion and domain
             draw();
 
-            input.addEventListener("keypress",function(e){
+            button.addEventListener("click",function(e){
                 let a = Number(lowerDomain.value);
                 let b = Number(upperDomain.value);
 
-                if(e.key === "Enter" && !isNaN(a) && !isNaN(b)){
+                if(!isNaN(a) && !isNaN(b)){
                     funct = input.value;
                     try{
                         output.textContent = domainSum(a,b,0.01);
@@ -72,17 +88,11 @@
                 } else {
                     output.textContent = "Improper Domain";
                 }
-            } )
-
-            unitInput.addEventListener("keypress", function(e){
-                if(e.key === "Enter"){
-                    if(!isNaN(unitInput.value)){
+                if(!isNaN(unitInput.value)){
                         unitSize = unitInput.value;
                         draw();
                     }
-                }
-            })
-
+            } )
             
             // Function of x, solved for a
         
@@ -153,7 +163,7 @@
             function drawGraphLines(ctx, width, height){
              
                 
-                ctx.strokeStyle = 'black';
+                ctx.strokeStyle = 'white';
                 ctx.lineWidth = 1;
             
                 
@@ -178,7 +188,7 @@
                 
 
                 
-                ctx.strokeStyle = 'blue';
+                ctx.strokeStyle = 'lightgray';
                 ctx.lineWidth = 5;
 
                 for(let i = 0; i < width - unitSize; i++){
@@ -208,7 +218,7 @@
                         let graphHeight = height / 2 - unitSize * func(i / unitSize);
 
                         if(graphHeight > height / 2){
-                            ctx.strokeStyle = 'blue';
+                            ctx.strokeStyle = 'skyblue';
                         } else {
                             ctx.strokeStyle = 'red';
                         }
